@@ -1,0 +1,37 @@
+{
+  "name": "journal-platform",
+  "version": "1.0.0",
+  "description": "杂志社投稿与编辑审稿平台",
+  "private": true,
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run start:dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm run start:prod",
+    "start:frontend": "cd frontend && npm run preview",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "db:init": "mysql -u root -ppassword < database/schema.sql",
+    "lint": "cd backend && npm run lint && cd ../frontend && npm run lint",
+    "test": "cd backend && npm run test && cd ../frontend && npm run test",
+    "typecheck": "cd backend && npx tsc --noEmit && cd ../frontend && npx vue-tsc --noEmit"
+  },
+  "keywords": [
+    "journal",
+    "manuscript",
+    "review",
+    "vue3",
+    "nestjs"
+  ],
+  "author": "Journal Platform Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
