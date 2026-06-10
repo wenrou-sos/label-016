@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { databaseConfig } from './config/typeorm.config';
 import { AuthModule } from './modules/auth/auth.module';
@@ -10,7 +10,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
 import { DecisionsModule } from './modules/decisions/decisions.module';
 import { TagsModule } from './modules/tags/tags.module';
 import { BackupModule } from './modules/backup/backup.module';
-import { RolesGuard } from './common/guards/roles.guard';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -29,11 +29,12 @@ import { RolesGuard } from './common/guards/roles.guard';
     DecisionsModule,
     TagsModule,
     BackupModule,
+    NotificationsModule,
   ],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: ThrottlerGuard,
     },
   ],
 })

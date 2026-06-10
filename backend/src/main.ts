@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
@@ -23,44 +22,16 @@ async function bootstrap() {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net'],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        fontSrc: ["'self'", 'data:'],
       },
     },
     crossOriginEmbedderPolicy: false,
     crossOriginOpenerPolicy: false,
     crossOriginResourcePolicy: false,
   }));
-
-  app.use(
-    '/auth/login',
-    rateLimit({
-      windowMs: 60 * 1000,
-      max: 5,
-      message: {
-        code: 429,
-        message: '登录请求过于频繁，请1分钟后再试',
-        data: null,
-      },
-      standardHeaders: true,
-      legacyHeaders: false,
-    }),
-  );
-
-  app.use(
-    '/',
-    rateLimit({
-      windowMs: 60 * 1000,
-      max: 100,
-      message: {
-        code: 429,
-        message: '请求过于频繁，请1分钟后再试',
-        data: null,
-      },
-      standardHeaders: true,
-      legacyHeaders: false,
-    }),
-  );
 
   app.useGlobalPipes(
     new ValidationPipe({

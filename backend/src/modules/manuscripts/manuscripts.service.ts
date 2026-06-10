@@ -16,6 +16,7 @@ import { UserRole } from '../../common/enums/user-role.enum';
 import { ManuscriptStatus } from '../../common/enums/manuscript-status.enum';
 import { DecisionType } from '../../common/enums/decision-type.enum';
 import { PaginationDto } from '../../common/dto/pagination.dto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class ManuscriptsService {
@@ -28,6 +29,9 @@ export class ManuscriptsService {
     private reviewRepository: Repository<Review>,
     @InjectRepository(Decision)
     private decisionRepository: Repository<Decision>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+    private notificationsService: NotificationsService,
   ) {}
 
   async create(createManuscriptDto: CreateManuscriptDto, user: User) {
@@ -41,6 +45,14 @@ export class ManuscriptsService {
     const savedManuscript = await this.manuscriptRepository.save(manuscript);
 
     await this.addHistory(savedManuscript.id, null, ManuscriptStatus.PENDING, user.id, '提交稿件');
+
+    const editors = await this.userRepository.find({
+      where: { role: UserRole.EDITOR },
+    });
+
+    for (const editor of editors) {
+      await this.notificationsService.notifySubmission(savedManuscript, editor);
+    }
 
     return savedManuscript;
   }
@@ -289,6 +301,13 @@ export class ManuscriptsService {
       await this.addHistory(id, ManuscriptStatus.PENDING, ManuscriptStatus.REVIEWING, user.id, '编辑开始评审');
     }
 
+    const author = await this.userRepository.findOne({
+      where: { id: manuscript.author_id },
+    });
+    if (author) {
+      await this.notificationsService.notifyReview(manuscript, author);
+    }
+
     return savedReview;
   }
 
@@ -330,6 +349,17 @@ export class ManuscriptsService {
     });
 
     await this.addHistory(id, manuscript.status, newStatus, user.id, decisionDto.comment || `主编${decisionDto.decision === DecisionType.ACCEPTED ? '录用' : '退稿'}稿件`);
+
+    const author = await this.userRepository.findOne({
+      where: { id: manuscript.author_id },
+    });
+    if (author) {
+      await this.notificationsService.notifyDecision(
+        manuscript,
+        author,
+        decisionDto.decision === DecisionType.ACCEPTED ? 'accepted' : 'rejected',
+      );
+    }
 
     return savedDecision;
   }

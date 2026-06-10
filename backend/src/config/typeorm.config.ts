@@ -6,6 +6,7 @@ import { Review } from '../entities/review.entity';
 import { Decision } from '../entities/decision.entity';
 import { ManuscriptHistory } from '../entities/manuscript-history.entity';
 import { Tag } from '../entities/tag.entity';
+import { Notification } from '../entities/notification.entity';
 
 dotenv.config();
 
@@ -16,8 +17,8 @@ export const dataSource = new DataSource({
   username: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_DATABASE || 'journal_platform',
-  entities: [User, Manuscript, Review, Decision, ManuscriptHistory, Tag],
-  synchronize: process.env.NODE_ENV === 'development',
+  entities: [User, Manuscript, Review, Decision, ManuscriptHistory, Tag, Notification],
+  synchronize: true,
   logging: process.env.NODE_ENV === 'development',
   charset: 'utf8mb4',
   timezone: '+08:00',
@@ -32,8 +33,8 @@ export const databaseConfig = {
   username: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_DATABASE || 'journal_platform',
-  entities: [User, Manuscript, Review, Decision, ManuscriptHistory, Tag],
-  synchronize: process.env.NODE_ENV === 'development',
+  entities: [User, Manuscript, Review, Decision, ManuscriptHistory, Tag, Notification],
+  synchronize: true,
   logging: process.env.NODE_ENV === 'development',
   charset: 'utf8mb4',
   timezone: '+08:00',

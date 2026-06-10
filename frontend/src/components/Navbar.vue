@@ -14,7 +14,8 @@
     </div>
     <div class="navbar-right">
       <template v-if="userStore.isAuthenticated">
-        <n-space>
+        <n-space align="center">
+          <NotificationPopover />
           <n-tag :style="{ backgroundColor: roleColor, color: '#fff' }">
             {{ roleLabel }}
           </n-tag>
@@ -45,6 +46,7 @@ import { NLayoutHeader, NButton, NDropdown, NSpace, NTag, NIcon, useDialog, useM
 import { HomeOutline, PersonCircleOutline, LogOutOutline, Home } from '@vicons/ionicons5'
 import { useUserStore } from '@/stores/user'
 import { getRoleLabel, getRoleColor } from '@/utils/status'
+import NotificationPopover from './NotificationPopover.vue'
 
 const router = useRouter()
 const userStore = useUserStore()

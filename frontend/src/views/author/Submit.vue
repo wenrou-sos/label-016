@@ -163,15 +163,43 @@ function handleReset() {
 .submit-page {
   max-width: 1000px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .markdown-editor-wrapper {
   border: 1px solid #e8e8e8;
   border-radius: 4px;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 :deep(.v-md-editor) {
   border: none;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+:deep(.v-md-editor__toolbar) {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+:deep(.v-md-editor__editor-wrapper) {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+:deep(.v-md-editor__preview-wrapper) {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+:deep(.v-md-editor__editor),
+:deep(.v-md-editor__preview) {
+  width: 100% !important;
+  box-sizing: border-box;
 }
 </style>

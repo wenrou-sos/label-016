@@ -90,6 +90,32 @@ export interface ReviewHistory {
   createdAt: string
 }
 
+export type NotificationType = 'submission' | 'review' | 'decision' | 'system'
+
+export interface Notification {
+  id: number
+  userId: number
+  title: string
+  content: string
+  type: NotificationType
+  manuscriptId: number | null
+  manuscript?: Manuscript | null
+  isRead: boolean
+  createdAt: string
+  readAt: string | null
+}
+
+export interface NotificationListParams {
+  page?: number
+  pageSize?: number
+  isRead?: boolean
+}
+
+export interface MarkReadParams {
+  ids?: number[]
+  all?: boolean
+}
+
 export interface ApiResponse<T = any> {
   code: number
   message: string
