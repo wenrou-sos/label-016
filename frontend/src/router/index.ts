@@ -90,7 +90,7 @@ const routes: RouteRecordRaw[] = [
     path: '/chief',
     name: 'Chief',
     component: () => import('@/views/chief/Layout.vue'),
-    meta: { title: '主编工作台', roles: ['chief'] as UserRole[] },
+    meta: { title: '主编工作台', roles: ['chief_editor'] as UserRole[] },
     children: [
       {
         path: '',
@@ -100,13 +100,13 @@ const routes: RouteRecordRaw[] = [
         path: 'decision',
         name: 'ChiefDecision',
         component: () => import('@/views/chief/DecisionList.vue'),
-        meta: { title: '终审稿件', roles: ['chief'] as UserRole[] }
+        meta: { title: '终审稿件', roles: ['chief_editor'] as UserRole[] }
       },
       {
         path: 'decision/:id',
         name: 'ChiefDecisionDetail',
         component: () => import('@/views/chief/DecisionDetail.vue'),
-        meta: { title: '终审决策', roles: ['chief'] as UserRole[] }
+        meta: { title: '终审决策', roles: ['chief_editor'] as UserRole[] }
       }
     ]
   },
@@ -158,7 +158,7 @@ function getDefaultRoute(role: string | null): string {
       return '/author/manuscripts'
     case 'editor':
       return '/editor/review'
-    case 'chief':
+    case 'chief_editor':
       return '/chief/decision'
     default:
       return '/'

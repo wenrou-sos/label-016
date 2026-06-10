@@ -38,7 +38,7 @@
             <n-space>
               <n-radio value="author">作者</n-radio>
               <n-radio value="editor">编辑</n-radio>
-              <n-radio value="chief">主编</n-radio>
+              <n-radio value="chief_editor">主编</n-radio>
             </n-space>
           </n-radio-group>
         </n-form-item>

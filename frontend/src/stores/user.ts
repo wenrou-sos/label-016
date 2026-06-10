@@ -12,7 +12,7 @@ export const useUserStore = defineStore('user', () => {
   const userRole = computed(() => user.value?.role || null)
   const isAuthor = computed(() => user.value?.role === 'author')
   const isEditor = computed(() => user.value?.role === 'editor')
-  const isChief = computed(() => user.value?.role === 'chief')
+  const isChief = computed(() => user.value?.role === 'chief_editor')
 
   function hasRole(role: UserRole | UserRole[]): boolean {
     if (!user.value) return false

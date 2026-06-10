@@ -70,7 +70,7 @@ const dropdownOptions = computed(() => {
       options.push({ label: '作者工作台', key: '/author/manuscripts' })
     } else if (role === 'editor') {
       options.push({ label: '编辑工作台', key: '/editor/review' })
-    } else if (role === 'chief') {
+    } else if (role === 'chief_editor') {
       options.push({ label: '主编工作台', key: '/chief/decision' })
     }
   }

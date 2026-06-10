@@ -58,7 +58,7 @@ import { NSpace, NAvatar, NIcon, NTag, NSpin, NEmpty } from 'naive-ui'
 import { CalendarOutline, EyeOutline } from '@vicons/ionicons5'
 import Navbar from '@/components/Navbar.vue'
 import MarkdownViewer from '@/components/MarkdownViewer.vue'
-import { getManuscript, incrementViews } from '@/api/manuscript'
+import { getPublishedManuscript } from '@/api/manuscript'
 import type { Manuscript } from '@/types'
 import dayjs from 'dayjs'
 
@@ -76,8 +76,7 @@ async function fetchManuscript() {
   
   loading.value = true
   try {
-    manuscript.value = await getManuscript(id)
-    await incrementViews(id)
+    manuscript.value = await getPublishedManuscript(id)
   } catch (e) {
     console.error('获取稿件失败:', e)
   } finally {

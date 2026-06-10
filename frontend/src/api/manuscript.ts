@@ -13,7 +13,12 @@ export function submitManuscript(data: ManuscriptSubmitRequest) {
   return request<Manuscript>({
     url: '/manuscripts',
     method: 'post',
-    data
+    data: {
+      title: data.title,
+      summary: data.abstract,
+      content: data.content,
+      tags: data.tags
+    }
   })
 }
 
@@ -28,31 +33,49 @@ export function getPublishedManuscripts(params: ManuscriptFilterParams) {
   return request<PaginatedResponse<Manuscript>>({
     url: '/manuscripts/published',
     method: 'get',
-    params
+    params: {
+      page: params.page,
+      pageSize: params.pageSize,
+      keyword: params.keyword,
+      tags: params.tags
+    }
   })
 }
 
 export function getMyManuscripts(params: ManuscriptFilterParams) {
   return request<PaginatedResponse<Manuscript>>({
-    url: '/manuscripts/my',
+    url: '/manuscripts',
     method: 'get',
-    params
+    params: {
+      page: params.page,
+      pageSize: params.pageSize,
+      status: params.status
+    }
   })
 }
 
 export function getPendingManuscripts(params: ManuscriptFilterParams) {
   return request<PaginatedResponse<Manuscript>>({
-    url: '/manuscripts/pending',
+    url: '/manuscripts',
     method: 'get',
-    params
+    params: {
+      page: params.page,
+      pageSize: params.pageSize,
+      keyword: params.keyword,
+      tags: params.tags
+    }
   })
 }
 
 export function getFinalDecisionManuscripts(params: ManuscriptFilterParams) {
   return request<PaginatedResponse<Manuscript>>({
-    url: '/manuscripts/final-decision',
+    url: '/manuscripts',
     method: 'get',
-    params
+    params: {
+      page: params.page,
+      pageSize: params.pageSize,
+      keyword: params.keyword
+    }
   })
 }
 
@@ -61,7 +84,7 @@ export function reviewManuscript(data: ReviewRequest) {
     url: `/manuscripts/${data.manuscriptId}/review`,
     method: 'post',
     data: {
-      rating: data.rating,
+      score: data.rating,
       comment: data.comment
     }
   })
@@ -85,9 +108,9 @@ export function getReviewHistory(manuscriptId: number) {
   })
 }
 
-export function incrementViews(manuscriptId: number) {
-  return request({
-    url: `/manuscripts/${manuscriptId}/views`,
-    method: 'post'
+export function getPublishedManuscript(id: number) {
+  return request<Manuscript>({
+    url: `/manuscripts/published/${id}`,
+    method: 'get'
   })
 }

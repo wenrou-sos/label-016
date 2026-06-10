@@ -100,7 +100,7 @@ async function handleLogin() {
       ? '/author/manuscripts' 
       : userStore.userRole === 'editor' 
         ? '/editor/review' 
-        : userStore.userRole === 'chief' 
+        : userStore.userRole === 'chief_editor' 
           ? '/chief/decision' 
           : '/'
     

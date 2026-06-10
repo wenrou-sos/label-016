@@ -147,7 +147,7 @@ export class ManuscriptsService {
   async findOne(id: number, user: User) {
     const manuscript = await this.manuscriptRepository.findOne({
       where: { id },
-      relations: ['author', 'reviews', 'reviews.editor'],
+      relations: ['author', 'reviews', 'reviews.editor', 'decisions', 'decisions.chief_editor'],
       select: {
         author: {
           id: true,
@@ -166,6 +166,17 @@ export class ManuscriptsService {
             avatar: true,
           },
         },
+        decisions: {
+          id: true,
+          decision: true,
+          comment: true,
+          created_at: true,
+          chief_editor: {
+            id: true,
+            username: true,
+            avatar: true,
+          },
+        },
       },
     });
 
@@ -177,7 +188,27 @@ export class ManuscriptsService {
       throw new ForbiddenException('无权查看此稿件');
     }
 
-    return manuscript;
+    const result: any = { ...manuscript };
+    
+    if (manuscript.reviews && manuscript.reviews.length > 0) {
+      const latestReview = manuscript.reviews[manuscript.reviews.length - 1];
+      result.editor_rating = latestReview.score;
+      result.editor_comment = latestReview.comment;
+      result.editor_id = latestReview.editor_id;
+      result.editor = latestReview.editor;
+      result.reviewed_at = latestReview.created_at;
+    }
+
+    if (manuscript.decisions && manuscript.decisions.length > 0) {
+      const latestDecision = manuscript.decisions[manuscript.decisions.length - 1];
+      result.chief_decision = latestDecision.decision;
+      result.chief_comment = latestDecision.comment;
+      result.chief_editor_id = latestDecision.chief_editor_id;
+      result.chief_editor = latestDecision.chief_editor;
+      result.decided_at = latestDecision.created_at;
+    }
+
+    return result;
   }
 
   async findPublishedOne(id: number) {

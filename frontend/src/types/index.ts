@@ -1,4 +1,4 @@
-export type UserRole = 'author' | 'editor' | 'chief'
+export type UserRole = 'author' | 'editor' | 'chief_editor'
 
 export interface User {
   id: number
@@ -83,7 +83,7 @@ export interface ReviewHistory {
   manuscriptId: number
   reviewerId: number
   reviewer?: User
-  role: 'editor' | 'chief'
+  role: 'editor' | 'chief_editor'
   rating?: number
   comment: string
   decision?: 'accepted' | 'rejected'

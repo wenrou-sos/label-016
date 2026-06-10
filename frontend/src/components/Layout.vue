@@ -45,7 +45,7 @@ const menuItems = computed(() => {
     return [
       { label: '待审稿件', key: '/editor/review', icon: 'file-search' }
     ]
-  } else if (role === 'chief') {
+  } else if (role === 'chief_editor') {
     return [
       { label: '终审稿件', key: '/chief/decision', icon: 'check-circle' }
     ]

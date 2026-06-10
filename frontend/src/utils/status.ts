@@ -10,7 +10,7 @@ export const statusMap: Record<ManuscriptStatus, { label: string; type: 'default
 export const roleMap: Record<UserRole, { label: string; color: string }> = {
   author: { label: '作者', color: '#2080f0' },
   editor: { label: '编辑', color: '#18a058' },
-  chief: { label: '主编', color: '#d03050' }
+  chief_editor: { label: '主编', color: '#d03050' }
 }
 
 export function getStatusLabel(status: ManuscriptStatus): string {
